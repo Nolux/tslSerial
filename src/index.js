@@ -16,7 +16,7 @@ class TSLSerial extends EventEmitter {
       console.log(err);
     }
     this.on("send", (data) => {
-      buffer = this.generateTSLBuffer(data);
+      let buffer = this.generateTSLBuffer(data);
       this.serialPort.write(buffer);
     });
     this.serialPort.on("error", (err) => console.error(err));

@@ -1,6 +1,6 @@
 const TSLSerial = require("../src/index.js");
 
-let serial = new TSLSerial("COM3");
+let serial = new TSLSerial("/dev/tty.URT1");
 
 serial.emit("send", {
   address: 0, // TSL address, (INT)
@@ -12,4 +12,6 @@ serial.emit("send", {
   label: "CAM1", // 16 char string
 });
 
-TSLSerial.getAllSerialPorts().then((res) => console.log("res:", res));
+TSLSerial.getAllSerialPorts().then((res) =>
+  console.log("Serial interfaces: ", res)
+);
