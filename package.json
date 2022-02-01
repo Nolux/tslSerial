@@ -1,0 +1,23 @@
+{
+  "name": "tslserial",
+  "version": "1.0.0",
+  "description": "Simple package to send TSL UMD data over serial (RS422/RS485)",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node /src/index.js"
+  },
+  "keywords": [
+    "TSL",
+    "UMD",
+    "serial",
+    "RS485",
+    "RS422",
+    "tally",
+    "umd"
+  ],
+  "author": "Atle Selbek <atle.selbek@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "serialport": "^9.2.8"
+  }
+}
