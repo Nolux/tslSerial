@@ -2,11 +2,26 @@ const EventEmitter = require("events").EventEmitter;
 const SerialPort = require("serialport");
 
 class TSLSerial extends EventEmitter {
-  constructor(port = "") {
+  constructor(path = "") {
     super();
-    this.port = port;
-    this.on("send", (data) => {});
+    this.path = path;
+    try {
+      this.serialPort = new SerialPort(this.path, {
+        baudRate: 38400,
+        parity: "even",
+        stopBits: 1,
+        dataBits: 8,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+    this.on("send", (data) => {
+      buffer = this.generateTSLBuffer(data);
+      this.serialPort.write(buffer);
+    });
+    this.serialPort.on("error", (err) => console.error(err));
   }
+
   generateTSLBuffer({ address, label, tally1, tally2, tally3, tally4 }) {
     let bufferUmd = Buffer.alloc(18, 0);
 
@@ -31,12 +46,11 @@ class TSLSerial extends EventEmitter {
 
     return bufferUmd;
   }
+
   static async getAllSerialPorts() {
-    serialPorts = [];
+    let serialPorts = [];
     await SerialPort.list().then((ports) => {
-      ports.map((port) =>
-        serialPorts.push({ path: port.path, enabled: false })
-      );
+      ports.map((port) => serialPorts.push(port.path));
     });
     return serialPorts;
   }
